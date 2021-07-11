@@ -22,7 +22,7 @@ max-width: 1000px;
 text-align: center;
 }
 #progress{
-  font-family: "Naruto";
+  font-family:'Times New Roman', Times, serif;
   font-size: 50px;
 }
 @font-face {
