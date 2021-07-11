@@ -5,19 +5,29 @@
 }
 html{
     font-family:'Times New Roman', Times, serif;
+    background-color: gold;
     font-size:20px;
 }
 #websiteName{
 font-size: 62px;
 font-weight: 700;
-font-family: just me again down here,sans-serif;
+/* font-family: just me again down here,sans-serif; */
+font-family: "Naruto";
 letter-spacing: 2px;
 width: 100%;
 line-height: 65px;
 margin-bottom: 60px;
-color: #F78900;
+color: orange;
 max-width: 1000px;
 text-align: center;
+}
+#progress{
+  font-family: "Naruto";
+  font-size: 10px;
+}
+@font-face {
+    font-family: "Naruto";
+    src: url("./NinjaNaruto-YOn4.ttf");
 }
 #myImage{
     align-items:center;
@@ -25,7 +35,7 @@ text-align: center;
 }
 img{
     border: 10px solid white;
-    width:500px;
+    width:600px;
     height:600px;
 }
 
@@ -38,7 +48,6 @@ section{
     flex-direction: column;
     padding:50px 0;
 }
-
 
 .button{
     position:relative;
@@ -55,7 +64,7 @@ section{
   }
   .button button{
     color:white;
-    font-family:Helvetica, sans-serif;
+    font-family:"Naruto";
     font-weight:bold;
     font-size:36px;
     text-align: center;
@@ -93,4 +102,20 @@ section{
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+  }
+
+  .header {
+    align-items:center;
+    font-family: "Naruto";
+    font-weight: 800;
+    font-size: 3.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    color: #F78900;
+  }
+  
+  .header .word {
+    align-items:center;
+    display: inline-block;
+    line-height: 1em;
   }
