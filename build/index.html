@@ -10,27 +10,34 @@
 
 <body>
   <section>
-  <div id="websiteName">CreaToon</div>
-  <img id="myImage"> <label id="progress"></label> <br><br>
-  <!-- <img id="finalImage"> -->
-  
-  <!-- <button id="select">Choose an image</button> -->
-  <div class="button">
-    <button id="select">Choose an image</button>
+    <!-- <div id="websiteName">CreaToon</div> -->
+    <h1 class="header">
+      <span class="word">CreaToon</span>
+      <!-- <span class="word">Toon</span> -->
+    </h1>
+    <br>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script src="./style.js"></script>
+    <img id="myImage"> <label id="progress"></label> <br><br>
+    <!-- <button id="select">Choose an image</button> -->
+    <div class="button">
+      <button id="select">Choose an image</button>
+      <!-- <a>Mobile first</a> -->
+    </div>
+    <div class="button" style="display: none" id="uploadBtn">
+      <button id="upload">Upload an image</button>
+    </div>
+    <div class="button" style="display: none" id="submitBtn">
+      <button id="result"  onclick="window.location.href='result.html'">It is finished!</button>
+    </div>
     
-    
-    <!-- <a>Mobile first</a> -->
-  </div>
-  <div class="button">
-    <button id="upload" >Upload an image</button>
-  </div>
-</section>
+  </section>
   <script src="/__/firebase/8.7.1/firebase-app.js"></script>
   <script src="/__/firebase/8.7.1/firebase-database.js"></script>
   <script src="/__/firebase/8.7.1/firebase-storage.js"></script>
 
   <script id="main">
-    var imgName, imgURL;
+    var imgName, imgURL, base16;
     var files = [];
     var reader = new FileReader();
 
@@ -60,8 +67,10 @@
         console.log(files[0]);
       }
       input.click();
+      
     }
-
+    document.getElementById("uploadBtn").style.display = "block";
+    
     //---Upload Image---//
 
     document.getElementById("upload").onclick = function () {
@@ -83,52 +92,29 @@
           uploadBar.snapshot.ref.getDownloadURL().then(function (url) {
             ImageURL = url;
 
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', "https://creatoon.neeltron.repl.co/entrypoint?img=" + ImageURL, true);
-            xhr.send();
-            // xhr.addEventListener("readystatechange", processRequest, false);
-            // xhr.onreadystatechange = processRequest;
-            // console.log(xhr.responseText);
-            // function processRequest(e) {
-            //   if (xhr.readyState == 4 && xhr.status == 200) {
-            //     let response = JSON.parse(xhr.responseText);
-            //     document.getElementById("finalImage").src = response.result;
-            //   }
-            // }
-            // fetch("https://creatoon.neeltron.repl.co/entrypoint?img=" + ImageURL)
-            //   .then(function (response) {
-            //     return response.json();
-            //   })
-            //   .then(function (url_to_image) {
-            //     console.log(url_to_image);
-            //     // document.querySelector("#ip").innerHTML = myJson.ip;
-            //   })
-            //   .catch(function (error) {
-            //     console.log("Error: " + error);
-            //   });
-            // var outside
-            // fetch("https://creatoon.neeltron.repl.co/entrypoint?img=" + ImageURL)
-            //   .then(repsonse => response.json())
-            //   .then(images => {
-            //     console.log(images);
-            //     document.getElementById("finalImage").src = images;
+            function convertToHex(str) {
+              var hex = '';
+              for (var i = 0; i < str.length; i++) {
+                hex += '' + str.charCodeAt(i).toString(16);
+              }
+              return hex;
+            }
+            base16 = convertToHex(url);
 
-            //   }).catch(err=>console.log(err))
+            fetch("https://creatoon.neeltron.repl.co/entrypoint?img=" + base16)
+              .then(function (response) {
+                return response.json();
+              });
             firebase.database().ref('Pictures/' + ImageID).set({
               Name: ImageID,
               Link: ImageURL
             });
-            alert('Image added sucessfully!');
+            document.getElementById("submitBtn").style.display = "block";
           }
           );
         });
     }
   </script>
-
-
-
-
-
 
 </body>
 
