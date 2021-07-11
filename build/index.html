@@ -12,15 +12,21 @@
   <section>
     <!-- <div id="websiteName">CreaToon</div> -->
     <h1 class="header">
-      <span class="word">CreaToon</span>
+
+      <ul class="nav">
+
+        <li><a href="about.html">About</a></li>
+        <a href="index.html"> <span class="word">CreaToon</span></a>
+      </ul>
       <!-- <span class="word">Toon</span> -->
     </h1>
-    <br><br>
-    <div class="intro">Type your intro here</div>
-    <br>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
     <script src="./style.js"></script>
-    <img id="myImage"> <label id="progress"></label> <br><br>
+    <br>
+    <img id="myImage"><label id="progress"></label> <br><br>
+
+
     <!-- <button id="select">Choose an image</button> -->
     <div class="button">
       <button id="select">Choose an image</button>
@@ -30,9 +36,9 @@
       <button id="upload">Upload an image</button>
     </div>
     <div class="button" style="display: none" id="submitBtn">
-      <button id="result"  onclick="window.location.href='result.html'">It is finished!</button>
+      <button id="result" onclick="window.location.href='result.html'">It is finished!</button>
     </div>
-    
+
   </section>
   <script src="/__/firebase/8.7.1/firebase-app.js"></script>
   <script src="/__/firebase/8.7.1/firebase-database.js"></script>
@@ -69,10 +75,11 @@
         console.log(files[0]);
       }
       input.click();
-      
+
     }
     document.getElementById("uploadBtn").style.display = "block";
-    
+    document.getElementById("introBox").style.display = "none";
+
     //---Upload Image---//
 
     document.getElementById("upload").onclick = function () {
