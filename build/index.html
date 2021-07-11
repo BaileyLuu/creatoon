@@ -32,10 +32,10 @@
       <button id="select">Choose an image</button>
       <!-- <a>Mobile first</a> -->
     </div>
-    <div class="button" style="display: none" id="uploadBtn">
+    <div class="button" style="display:none;" id="uploadBtn">
       <button id="upload">Upload an image</button>
     </div>
-    <div class="button" style="display: none" id="submitBtn">
+    <div class="button" style="display:none;" id="submitBtn">
       <button id="result" onclick="window.location.href='result.html'">It is finished!</button>
     </div>
 
@@ -75,11 +75,11 @@
         console.log(files[0]);
       }
       input.click();
+      
+      document.getElementById("uploadBtn").style.display = "block";
 
     }
-    document.getElementById("uploadBtn").style.display = "block";
-    document.getElementById("introBox").style.display = "none";
-
+    
     //---Upload Image---//
 
     document.getElementById("upload").onclick = function () {
@@ -89,7 +89,7 @@
 
       uploadBar.on('state_changed', function (snapshot) {
         var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        document.getElementById("progress").innerHTML = "Upload" + progress + "%";
+        document.getElementById("progress").innerHTML = "Upload " + progress + "%";
         console.log(progress);
       },
         //---Error Handling---//
