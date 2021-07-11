@@ -1,0 +1,166 @@
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    font-family:'Times New Roman', Times, serif;
+    font-size:20px;
+}
+section{
+    min-height: 100vh;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color:rgb(37,37,37);
+  
+    flex-direction: column;
+    padding:50px 0;
+}
+
+img{
+    border: 5px solid white;
+    width:500px;
+    height:600px;
+}
+ 
+.navBar{
+    list-style-type: none;
+    /* display:inline; */
+  /* justify-content: space-around;  */
+  align-items: center;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+.navBar a{ 
+    float: center;
+    color: #f2f2f2;
+    /* text-align: center; */
+    margin-right: 10px;
+    /* padding: 10px 10px; */
+    text-decoration: none;
+    font-size:30px;
+}
+
+ul{ 
+    /* margin: 10px auto 0;  */
+    padding: 0; 
+    list-style: none; 
+    /* display: table; */
+    width: 600px;
+    text-align: center;
+    flex-direction: row;
+    /* position:center; */
+}
+a{
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    
+    display: inline-block;
+    padding: 15px 20px;
+    position: relative;
+}
+a:after {    
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+  }
+  a:hover:after { 
+    width: 100%; 
+    left: 0; 
+  }
+#progress{
+    color:white;
+    font-size:20px;
+}
+/* , #list */
+section h1{
+    
+    color: white;
+    text-align: center;
+    width:100%;
+    font-size:100px;
+    margin-bottom:20px;
+}
+/* #list{
+    color: white;
+    text-align: center;
+    width:100%;
+    font-size:80px;
+    margin-bottom:20px;
+} */
+h2{
+    font-size:50px;
+    color: rgba(255,255,255, 0.322);
+}
+h3{
+    font-size:70px;
+    color: white;
+    text-align: center;
+}
+h4{ 
+    font-size:30px;
+    color: white;
+    text-align: left;
+    margin-left: 50px;
+    padding-bottom: 20px;
+}
+h5{
+    font-size:30px;
+    font-style:italic;
+    color: white;
+    text-align: left;
+    margin-left: 50px;
+    padding-bottom: 20px;
+}
+.input{
+    text-align: center;
+    
+}
+input[type="text"]{
+    height:50px;
+    width:400px;
+    padding:10px;
+  /*  font-weight:bold;*/
+    font-size:20px;
+    border-radius:2px;
+}
+button{
+    width:180px;
+    display: inline-block;
+    margin: 20px;
+    padding: 30px 0px;
+    text-align: center;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-decoration: none;
+}
+
+#select, #upload, #retrieve, #insert, #update, #delete, #selectDB, #refresh{
+    margin: 10px;
+    align-items:center;
+    border: 5px solid #049161;
+    font-size: 20px;
+    width:450px;
+    padding: 16px 0px;
+    color: #049161;
+    border-radius: 10px;
+}
+#select:hover, #upload:hover, #retrieve:hover, #insert:hover, #update:hover, #delete:hover, #selectDB:hover, #refresh:hover{
+    background-color: #049161;
+    color:#fff;
+    border-radius:10px;
+    transform: translateY(-6px);
+    will-change: transform;
+    transition: transform 250ms;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

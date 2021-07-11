@@ -1,0 +1,17 @@
+#websiteName{
+    font-size: 62px;
+font-weight: 700;
+font-family: just me again down here,sans-serif;
+letter-spacing: 2px;
+width: 100%;
+line-height: 65px;
+margin-bottom: 60px;
+color: #32325d;
+max-width: 1000px;
+text-align: center;
+}
+img{
+    border: 5px solid white;
+    width:500px;
+    height:600px;
+}

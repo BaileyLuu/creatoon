@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Home Page</title>
+</head>
+
+<body>
+    <section>
+        <!-- <h1>MISSING PEOPLE</h1> -->
+        <h1 id="Top">Missing People</h1>
+        <!-- <ul class="navBar"></ul> -->
+
+        <h2> <a id="clickList" href="#list">List</a></h2>
+        <br><br>
+        <h5>Missing People is a website that allows people to post profile of missing person 
+            from anywhere in the world. 
+        </h5>
+        <br><br>
+        <!-- </ul> -->
+        <h2>Profile ID </h2><input id="idbox" placeholder="The ID will be given if profile doesn't exist" type="text"
+            oninput="Update(this.value, 'id')"> <br><br>
+        <h2>Name </h2><input id="namebox" type="text" oninput="Update(this.value, 'name')"> <br><br>
+        <h2>Age </h2><input id="agebox" type="text" oninput="Update(this.value, 'age')"> <br><br>
+        <h2>Gender/Sex </h2><input id="gendersexbox" type="text" oninput="Update(this.value, 'gendersex')"> <br><br>
+        <!-- <h2>Date of Birth </h2><input id="dobbox" type="text" oninput="Update(this.value, 'dob')"><br><br> -->
+        <h2>Weight</h2><input id="weightbox" type="text" oninput="Update(this.value, 'weight')"> <br><br>
+        <h2>Eyes Colour</h2><input id="eyesbox" type="text" oninput="Update(this.value, 'eyes')"> <br><br>
+        <h2>Hair Colour </h2><input id="hairbox" type="text" oninput="Update(this.value, 'hair')"> <br><br>
+        <h2>Height </h2><input id="heightbox" type="text" oninput="Update(this.value, 'height')"> <br><br>
+        <h2>Build </h2><input id="buildbox" type="text" oninput="Update(this.value, 'build')"> <br><br>
+        <h2>Race </h2><input id="racebox" type="text" oninput="Update(this.value, 'race')"> <br><br>
+        <h2>Scars and Marks </h2><input id="scarsbox" type="text" oninput="Update(this.value, 'scars')"> <br><br>
+        <h2>Last Seen </h2><input id="lastseenbox" type="text" oninput="Update(this.value, 'lastseen')"> <br><br>
+        <h2>Details </h2><input id="detailsbox" type="text" oninput="Update(this.value, 'details')"> <br><br>
+        <h2>Contact </h2><input id="contactbox" type="text" oninput="Update(this.value, 'contact')"> <br><br>
+
+        <button id="insert">Insert Profile to the Database</button>
+        <button id="update">Update Profile in the Database</button>
+        <button id="delete">Delete Profile in the Database</button>
+        <button id="selectDB">View Profile</button>
+        <button id="refresh">Refresh the Page</button>
+        <div>
+            <h4 id="profileID"></h4>
+            <h4 id="instruction"></h4>
+            <h2 id="updateAlert"></h4>
+            <h4 id="deleteAlert"></h4>
+
+        </div>
+        <img id="myImage"> <label id="progress"></label> <br><br>
+        <button id="select">Select Image</button>
+        <button id="upload">Upload Image</button>
+        <br><br>
+        <h3>List of Missing People</h3>
+        <br><br>
+        <ul id="list"></ul>
+        <br><br>
+        <h2> <a class="clickList" href="#Top">Go to the Top</a></h2>
+
+
+        <!-- <button id="retrieve">Retrieve Image</button> -->
+    </section>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
+
+    <script id="MainScript">
+        //--------Variables-------//
+        var imgName, imgURL;
+        var files = [];
+        var reader = new FileReader();
+
+        let insertID = document.getElementById('idbox');
+        let name = document.getElementById('namebox');
+        let age = document.getElementById('agebox');
+        let genderSex = document.getElementById('gendersexbox')
+        // let dob = document.getElementById('dobbox');
+        let weight = document.getElementById('weightbox');
+        let eyes = document.getElementById('eyesbox');
+        let hair = document.getElementById('hairbox');
+        let height = document.getElementById('heightbox');
+        let build = document.getElementById('buildbox');
+        let race = document.getElementById('racebox');
+        let scars = document.getElementById('scarsbox');
+        let lastSeen = document.getElementById('lastseenbox');
+        let details = document.getElementById('detailsbox');
+        let contact = document.getElementById('contactbox');
+        var id = document.getElementById('profileID');
+        var image = document.getElementById('myImage');
+        var instruction = document.getElementById('instruction');
+        var updateDB = document.getElementById('updateAlert');
+        var deleteDB = document.getElementById('deleteAlert');
+        var viewDB = document.getElementById('selectDB');
+        // let nameV, genderSexV, dobV, weightV, eyesV, hairV, heightV, buildV, raceV, scarsV, lastSeenV, detailsV, contactV;
+
+        let idV = insertID.value;
+        let nameV = name.value;
+        let ageV = age.value;
+        let genderSexV = genderSex.value;
+        // let dobV = dob.value;
+        let weightV = weight.value;
+        let eyesV = eyes.value;
+        let hairV = hair.value;
+        let heightV = height.value;
+        let buildV = build.value;
+        let raceV = race.value;
+        let scarsV = scars.value;
+        let lastSeenV = lastSeen.value;
+        let detailsV = details.value;
+        let contactV = contact.value;
+
+
+        //Update the profile information anytime the user insert/update/delete profile
+        function Update(val, type) {
+            if (type == 'name') nameV = val;
+            else if (type == 'id') idV = val;
+            else if (type == 'age') ageV = val;
+            else if (type == 'gendersex') genderSexV = val;
+            // else if (type == 'dob') dobV = val;
+            else if (type == 'weight') weightV = val;
+            else if (type == 'eyes') eyesV = val;
+            else if (type == 'hair') hairV = val;
+            else if (type == 'height') heightV = val;
+            else if (type == 'build') buildV = val;
+            else if (type == 'race') raceV = val;
+            else if (type == 'scars') scarsV = val;
+            else if (type == 'lastseen') lastSeenV = val;
+            else if (type == 'details') detailsV = val;
+            else if (type == 'contact') contactV = val;
+        }
+        //---------Configuration--//
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyAmfK-cW46BSNb_ALOwksGjEQnTigMaPOw",
+            authDomain: "confidential-258c3.firebaseapp.com",
+            projectId: "confidential-258c3",
+            storageBucket: "confidential-258c3.appspot.com",
+            messagingSenderId: "996782840022",
+            appId: "1:996782840022:web:d794690fd89b396e329177"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        let cloudDB = firebase.firestore();
+
+
+        //Get the data from firestore
+        const peopleList = document.querySelector("#list");
+        //---create element and render the data---//
+        function renderList(doc) {
+            let li = document.createElement("li");
+            let imageHere = document.createElement("img");
+            let name = document.createElement("h3");
+            let age = document.createElement("h4");
+            let gender = document.createElement("h4");
+            // let dob = document.createElement("h4");
+            let weight = document.createElement("h4");
+            let eyes = document.createElement("h4");
+            let hair = document.createElement("h4");
+            let height = document.createElement("h4");
+            let build = document.createElement("h4");
+            let race = document.createElement("h4");
+            let scars = document.createElement("h4");
+            let lastSeen = document.createElement("h4");
+            let details = document.createElement("h4");
+            let contact = document.createElement("h4");
+            li.setAttribute("data-id", doc.id);
+
+            //---Retrieve image for each user---//
+            //Get the image link from Realtime Database and set the image source attribute to this link
+            firebase.database().ref('Pictures/' + doc.id).on('value', function (snapshot) {
+                imageHere.src = snapshot.val().Link; 
+            });
+            name.textContent = doc.data().Name;
+            age.textContent = "Age: " + doc.data().Age;
+            gender.textContent = "Gender: " + doc.data().Gender;
+            // dob.textContent = "Date of Birth: " + doc.data().DOB;
+            weight.textContent = "Weight: " + doc.data().Weight;
+            eyes.textContent = "Eyes: " + doc.data().Eyes;
+            hair.textContent = "Hair: " + doc.data().Hair;
+            height.textContent = "Height: " + doc.data().Height;
+            build.textContent = "Build: " + doc.data().Build;
+            race.textContent = "Race: " + doc.data().Race;
+            scars.textContent = "Scars and Marks: " + doc.data().Scars;
+            lastSeen.textContent = "Last Seen: " + doc.data().LastSeen;
+            details.textContent = "Details: " + doc.data().Details;
+            contact.textContent = "Contact: " + doc.data().Contact;
+            li.appendChild(imageHere);
+            li.appendChild(name);
+            li.appendChild(age);
+            li.appendChild(gender);
+            // li.appendChild(dob);
+            li.appendChild(weight);
+            li.appendChild(eyes);
+            li.appendChild(hair);
+            li.appendChild(height);
+            li.appendChild(build);
+            li.appendChild(race);
+            li.appendChild(scars);
+            li.appendChild(lastSeen);
+            li.appendChild(details);
+            li.appendChild(contact);
+
+            peopleList.appendChild(li);
+            
+        }
+        cloudDB.collection("MissingPeople").get().then((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                renderList(doc);
+            })
+        })
+        //-------------------------//
+        //-----Writing Data----//
+        //---Add Document with Auto Generated ID---//
+        function Add_Doc_With_Auto_ID() {
+            cloudDB.collection("MissingPeople").add({
+                Name: nameV,
+                Age: ageV,
+                Gender: genderSexV,
+                // DOB: dobV,
+                Weight: weightV,
+                Eyes: eyesV,
+                Hair: hairV,
+                Height: heightV,
+                Build: buildV,
+                Race: raceV,
+                Scars: scarsV,
+                LastSeen: lastSeenV,
+                Details: detailsV,
+                Contact: contactV
+            }).then(function (docRef) {
+                console.log("Document written with ID", docRef.id);
+                id.innerHTML = "Insert Successful!\nYour profile ID is " + docRef.id;
+                instruction.innerHTML = "Please write down this ID to update/delete/view the profile and upload the image"
+            }).catch(function (err) {
+                console.error("Error adding document");
+            })
+        }
+        //---Update Document with Auto Generated ID---//
+        function Update_Doc_With_Auto_ID() {
+            cloudDB.collection("MissingPeople").doc(idV).update({
+                Name: document.getElementById("namebox").value,
+                Age: document.getElementById("agebox").value,
+                Gender: document.getElementById("gendersexbox").value,
+                // DOB: document.getElementById("dobbox").value,
+                Weight: document.getElementById("weightbox").value,
+                Eyes: document.getElementById("eyesbox").value,
+                Hair: document.getElementById("hairbox").value,
+                Height: document.getElementById("heightbox").value,
+                Build: document.getElementById("buildbox").value,
+                Race: document.getElementById("racebox").value,
+                Scars: document.getElementById("scarsbox").value,
+                LastSeen: document.getElementById("lastseenbox").value,
+                Details: document.getElementById("detailsbox").value,
+                Contact: document.getElementById("contactbox").value
+            }).then(function () {
+                console.log("Document updated with ID", idV);
+                updateDB.innerHTML = "Update Profile Sucessful!";
+
+            }).catch(function (err) {
+                console.error("Error updating document");
+            })
+        }
+
+        //---Delete Document with Auto Generated ID---//
+        function Delete_Doc_With_Auto_ID() {
+            cloudDB.collection("MissingPeople").doc(idV).delete(
+
+            ).then(function () {
+                console.log("Document deleted with ID", idV);
+                deleteDB.innerHTML = "Delete Profile Sucessful!";
+                ImageID = document.getElementById("idbox").value;
+                var adaRef = firebase.database().ref('Pictures/' + ImageID);
+                adaRef.remove()
+                    .then(function () {
+                        console.log("Remove succeeded.")
+                    })
+                    .catch(function (error) {
+                        console.log("Remove failed: " + error.message)
+                    });
+                alert("Profile deleted sucessfully!");
+                location.reload();
+
+            }).catch(function (err) {
+                console.error("Error deleting document");
+            })
+        }
+
+        //---View Document with Auto Generated ID---//
+        function View_Doc_With_Auto_ID() {
+            cloudDB.collection("MissingPeople").doc(idV).get()
+                .then(function (doc) {
+                    if (doc.exists) {
+                        name.value = doc.data().Name;
+                        age.value = doc.data().Age;
+                        genderSex.value = doc.data().Gender;
+                        // dob.value = doc.data().DOB;
+                        weight.value = doc.data().Weight;
+                        eyes.value = doc.data().Eyes;
+                        hair.value = doc.data().Hair;
+                        height.value = doc.data().Height;
+                        build.value = doc.data().Build;
+                        race.value = doc.data().Race;
+                        scars.value = doc.data().Scars;
+                        lastSeen.value = doc.data().LastSeen;
+                        details.value = doc.data().Details;
+                        contact.value = doc.data().Contact;
+                    } else {
+                        alert("Profile does not exist!");
+                        console.log("Profile does not exist");
+                    }
+                }).catch(function (error) {
+                    console.log("error", error);
+                })
+
+        }
+        //-----Button Events----//
+
+        document.getElementById("insert").onclick = function () {
+            Add_Doc_With_Auto_ID();
+
+        }
+        document.getElementById("update").onclick = function () {
+            Update_Doc_With_Auto_ID();
+
+        }
+        document.getElementById("refresh").onclick = function () {
+            location.reload();
+        }
+        document.getElementById("delete").onclick = function () {
+            Delete_Doc_With_Auto_ID();
+            ImageID = document.getElementById("idbox").value;
+            var uploadBar = firebase.storage().ref('Images/' + ImageID).delete(files[0]);
+
+        }
+        document.getElementById("selectDB").onclick = function () {
+            View_Doc_With_Auto_ID();
+
+            ImageID = document.getElementById("idbox").value;
+            firebase.database().ref('Pictures/' + ImageID).on('value', function (snapshot) {
+                document.getElementById("myImage").src = snapshot.val().Link;
+            });
+        }
+        //---Select Image--//
+        document.getElementById("select").onclick = function (e) {
+            var input = document.createElement('input');
+            input.type = 'file';
+
+            input.onchange = e => {
+                files = e.target.files;
+                reader = new FileReader();
+                reader.onload = function () {
+                    document.getElementById("myImage").src = reader.result;
+                }
+                reader.readAsDataURL(files[0]);
+            }
+            input.click();
+        }
+
+        //---Upload Image---//
+
+        document.getElementById("upload").onclick = function () {
+            ImageID = document.getElementById("idbox").value;
+            var uploadBar = firebase.storage().ref('Images/' + ImageID).put(files[0]);
+
+            uploadBar.on('state_changed', function (snapshot) {
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                document.getElementById("progress").innerHTML = "Upload" + progress + "%";
+            },
+                //---Error Handling---//
+                function (error) {
+                    alert('Error in saving image');
+                },
+                //---Submit image link to database---//
+                function () {
+                    uploadBar.snapshot.ref.getDownloadURL().then(function (url) {
+                        ImageURL = url;
+
+                        firebase.database().ref('Pictures/' + ImageID).set({
+                            Name: ImageID,
+                            Link: ImageURL
+                        });
+                        alert('Image added sucessfully!');
+                    }
+                    );
+                });
+        }
+    </script>
+
+
+</body>
+
+</html>

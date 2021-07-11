@@ -1,0 +1,40 @@
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    font-family:'Times New Roman', Times, serif;
+    font-size:20px;
+}
+#websiteName{
+    font-size: 62px;
+font-weight: 700;
+font-family: just me again down here,sans-serif;
+letter-spacing: 2px;
+width: 100%;
+line-height: 65px;
+margin-bottom: 60px;
+color: #32325d;
+max-width: 1000px;
+text-align: center;
+}
+#myImage{
+    align-items:center;
+    justify-content:center;
+}
+img{
+    border: 10px solid white;
+    width:500px;
+    height:600px;
+}
+
+section{
+    min-height: 100vh;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;  
+    flex-direction: column;
+    padding:50px 0;
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+  <title>Creatoon</title>
+</head>
+
+<body>
+  <section>
+  <div id="websiteName">CreaToon</div>
+  <img id="myImage"> <label id="progress"></label> <br><br>
+  <img id="finalImage">
+  <button id="select">Choose an image</button>
+  <button id="upload">Upload an image</button>
+</section>
+  <script src="/__/firebase/8.7.1/firebase-app.js"></script>
+  <script src="/__/firebase/8.7.1/firebase-database.js"></script>
+  <script src="/__/firebase/8.7.1/firebase-storage.js"></script>
+
+  <script id="main">
+    var imgName, imgURL;
+    var files = [];
+    var reader = new FileReader();
+
+    var firebaseConfig = {
+      apiKey: "AIzaSyB0mk1LiB4UxAFjeWSbDNbmcwQ23Oliy-o",
+      authDomain: "creatoon-40449.firebaseapp.com",
+      projectId: "creatoon-40449",
+      storageBucket: "creatoon-40449.appspot.com",
+      messagingSenderId: "596883931387",
+      appId: "1:596883931387:web:d22ec2bd52d24406f5305e"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    //---Select Image--//
+    document.getElementById("select").onclick = function (e) {
+      var input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+
+      input.onchange = e => {
+        files = e.target.files;
+        reader = new FileReader();
+        reader.onload = function () {
+          document.getElementById("myImage").src = reader.result;
+        }
+        reader.readAsDataURL(files[0]);
+        console.log(files[0]);
+      }
+      input.click();
+    }
+
+    //---Upload Image---//
+
+    document.getElementById("upload").onclick = function () {
+      ImageID = new Date().getTime();
+
+      var uploadBar = firebase.storage().ref('Images/' + ImageID).put(files[0]);
+
+      uploadBar.on('state_changed', function (snapshot) {
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        document.getElementById("progress").innerHTML = "Upload" + progress + "%";
+        console.log(progress);
+      },
+        //---Error Handling---//
+        function (error) {
+          alert('Error in saving image');
+        },
+        //---Submit image link to database---//
+        function () {
+          uploadBar.snapshot.ref.getDownloadURL().then(function (url) {
+            ImageURL = url;
+            // let xhr = new XMLHttpRequest();
+            // xhr.open('GET', "https://creatoon.neeltron.repl.co/entrypoint?img=" + ImageURL, true);
+            // xhr.send();
+            // xhr.addEventListener("readystatechange", processRequest, false);
+            // xhr.onreadystatechange = processRequest;
+            // console.log(xhr.responseText);
+            // function processRequest(e) {
+            //   if (xhr.readyState == 4 && xhr.status == 200) {
+            //     let response = JSON.parse(xhr.responseText);
+            //     document.getElementById("finalImage").src = response.result;
+            //   }
+            // }
+            // fetch("https://creatoon.neeltron.repl.co/entrypoint?img=" + ImageURL)
+            //   .then(function (response) {
+            //     return response.json();
+            //   })
+            //   .then(function (url_to_image) {
+            //     console.log(url_to_image);
+            //     // document.querySelector("#ip").innerHTML = myJson.ip;
+            //   })
+            //   .catch(function (error) {
+            //     console.log("Error: " + error);
+            //   });
+            // var outside
+            // fetch("https://creatoon.neeltron.repl.co/entrypoint?img=" + ImageURL)
+            //   .then(repsonse => response.json())
+            //   .then(images => {
+            //     console.log(images);
+            //     document.getElementById("finalImage").src = images[0];
+
+            //   }).catch(err=>console.log(err))
+            firebase.database().ref('Pictures/' + ImageID).set({
+              Name: ImageID,
+              Link: ImageURL
+            });
+            alert('Image added sucessfully!');
+          }
+          );
+        });
+    }
+  </script>
+
+
+
+
+
+
+</body>
+
+</html>
